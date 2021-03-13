@@ -5,15 +5,15 @@ public struct SendGridEmail: Encodable {
     /// An array of messages and their metadata. Each object within personalizations can be thought of as an envelope - it defines who should receive an individual message and how that message should be handled.
     public var personalizations: [Personalization]?
 
-    public var from: EmailAddress?
+    public var from: EmailAddress
 
     public var replyTo: EmailAddress?
 
     /// The global, or “message level”, subject of your email. This may be overridden by personalizations[x].subject.
-    public var subject: String?
+    public var subject: String
     
     /// An array in which you may specify the content of your email.
-    public var content: [[String: String]]?
+    public var content: [EmailContent]
 
     /// An array of objects in which you can specify any attachments you want to include.
     public var attachments: [EmailAttachment]?
@@ -52,10 +52,10 @@ public struct SendGridEmail: Encodable {
     public var trackingSettings: TrackingSettings?
     
     public init(personalizations: [Personalization]? = nil,
-                from: EmailAddress? = nil,
+                from: EmailAddress,
                 replyTo: EmailAddress? = nil,
-                subject: String? = nil,
-                content: [[String: String]]? = nil,
+                subject: String,
+                content: [EmailContent],
                 attachments: [EmailAttachment]? = nil,
                 templateId: String? = nil,
                 sections: [String: String]? = nil,
