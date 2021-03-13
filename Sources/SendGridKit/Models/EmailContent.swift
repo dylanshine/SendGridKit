@@ -1,6 +1,6 @@
 import Foundation
 
-public struct EmailContent: Encodable {
+public struct EmailContent: Codable {
     
     /// The mime type of the content you are including in your email. For example, “text/plain” or “text/html”.
     public let type: String

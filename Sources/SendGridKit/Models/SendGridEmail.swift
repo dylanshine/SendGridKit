@@ -1,6 +1,6 @@
 import Foundation
 
-public struct SendGridEmail: Encodable {
+public struct SendGridEmail: Codable {
     
     /// An array of messages and their metadata. Each object within personalizations can be thought of as an envelope - it defines who should receive an individual message and how that message should be handled.
     public var personalizations: [Personalization]?
@@ -126,5 +126,26 @@ public struct SendGridEmail: Encodable {
         try container.encode(ipPoolName, forKey: .ipPoolName)
         try container.encode(mailSettings, forKey: .mailSettings)
         try container.encode(trackingSettings, forKey: .trackingSettings)
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        personalizations = try container.decodeIfPresent([Personalization].self, forKey: .personalizations)
+        from = try container.decode(EmailAddress.self, forKey: .from)
+        replyTo = try container.decodeIfPresent(EmailAddress.self, forKey: .replyTo)
+        subject = try container.decode(String.self, forKey: .subject)
+        content = try container.decode([EmailContent].self, forKey: .content)
+        attachments = try container.decodeIfPresent([EmailAttachment].self, forKey: .attachments)
+        templateId = try container.decodeIfPresent(String.self, forKey: .templateId)
+        sections = try container.decodeIfPresent([String: String].self, forKey: .sections)
+        headers = try container.decodeIfPresent([String: String].self, forKey: .headers)
+        categories = try container.decodeIfPresent([String].self, forKey: .categories)
+        customArgs = try container.decodeIfPresent([String: String].self, forKey: .customArgs)
+        sendAt = try container.decodeIfPresent(Date.self, forKey: .sendAt)
+        batchId = try container.decodeIfPresent(String.self, forKey: .batchId)
+        asm = try container.decodeIfPresent(AdvancedSuppressionManager.self, forKey: .asm)
+        ipPoolName = try container.decodeIfPresent(String.self, forKey: .ipPoolName)
+        mailSettings = try container.decodeIfPresent(MailSettings.self, forKey: .mailSettings)
+        trackingSettings = try container.decodeIfPresent(TrackingSettings.self, forKey: .trackingSettings)
     }
 }
