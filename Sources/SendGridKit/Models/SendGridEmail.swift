@@ -3,7 +3,7 @@ import Foundation
 public struct SendGridEmail: Codable {
     
     /// An array of messages and their metadata. Each object within personalizations can be thought of as an envelope - it defines who should receive an individual message and how that message should be handled.
-    public var personalizations: [Personalization]?
+    public var personalizations: [Personalization]
 
     public var from: EmailAddress
 
@@ -51,7 +51,7 @@ public struct SendGridEmail: Codable {
     /// Settings to determine how you would like to track the metrics of how your recipients interact with your email.
     public var trackingSettings: TrackingSettings?
     
-    public init(personalizations: [Personalization]? = nil,
+    public init(personalizations: [Personalization],
                 from: EmailAddress,
                 replyTo: EmailAddress? = nil,
                 subject: String,
@@ -130,7 +130,7 @@ public struct SendGridEmail: Codable {
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        personalizations = try container.decodeIfPresent([Personalization].self, forKey: .personalizations)
+        personalizations = try container.decode([Personalization].self, forKey: .personalizations)
         from = try container.decode(EmailAddress.self, forKey: .from)
         replyTo = try container.decodeIfPresent(EmailAddress.self, forKey: .replyTo)
         subject = try container.decode(String.self, forKey: .subject)
